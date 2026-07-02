@@ -1,29 +1,44 @@
-# Craig's Claude Plugin Marketplace
+# Job Search Copilot for Claude
 
-A plugin marketplace for Claude (Cowork and Claude Code).
+**An AI job-search assistant that runs inside Claude.** Six skills that share one career profile — explain yourself once, then: get your LinkedIn profile rewritten for recruiter search, find and fit-score fresh job postings, tailor your resume to any job description without keyword stuffing, map warm intros into target companies, and run a 90-day LinkedIn content plan that builds authority before you start outreach.
+
+![Job Search Copilot in action](docs/images/06-job-scout-results.png)
+
+## What's inside
+
+| Skill | Say something like | You get |
+|---|---|---|
+| **Career profile setup** | "Set up my career profile" | A one-time intake — resume, target role, preferences — every other skill reuses |
+| **LinkedIn profile optimizer** | "Optimize my LinkedIn profile" | Gap analysis + headline/About rewrites, optimized for recruiter search |
+| **Job scout** | "Find product manager jobs posted this week" | Ranked table of fresh postings, fit-scored 1–10 against your resume, top 10 flagged |
+| **ATS resume optimizer** | "Tailor my resume to this JD" | ATS keyword extraction, honest bullet rewrites, before/after match score |
+| **Network mapper** | "Who do I know at [company]?" | 1st-degree contacts, warm-intro paths, ready-to-send messages from your LinkedIn connections export |
+| **Content engine** | "Build my LinkedIn content plan" | 90 post ideas (hook + angle + format) across 4 pillars, sequenced over 90 days |
+
+Every skill asks before it guesses, never invents facts about you, and is honest about its data's limits.
 
 ## Install
 
-**Claude desktop / Cowork:** Customize → Plugins → + → **Add from a repository** → paste this repo's URL.
+You'll need the [Claude desktop app](https://claude.ai/download) with Cowork mode.
 
-**Claude Code:**
+1. Open **Customize → Plugins**
+2. Click **+** → **Add from a repository**
+3. Paste: `https://github.com/CThomas-PO/cthomas-plugins`
+4. Install **job-search-copilot**, open a Cowork session, and say *"set up my career profile"*
+
+Using Claude Code instead?
 
 ```
-/plugin marketplace add <your-github-username>/craig-plugins
-/plugin install job-search-copilot@craig-plugins
+/plugin marketplace add CThomas-PO/cthomas-plugins
+/plugin install job-search-copilot@cthomas-plugins
 ```
 
-## Plugins
+📖 **[Full illustrated guide →](docs/GETTING-STARTED.md)** — step-by-step setup with screenshots, including the one-time Apify connection for job scraping (free, no credit card).
 
-### job-search-copilot
+## Costs
 
-Six skills for job seekers, sharing one reusable career profile:
+The plugin is free. Job scraping runs on [Apify](https://apify.com)'s free tier ($5 usage credit monthly, no card required — typical searches cost pennies). Everything else uses your existing Claude subscription.
 
-- **career-profile-setup** — one-time intake (resume, target role, preferences)
-- **linkedin-profile-optimizer** — gap analysis + recruiter-search-optimized rewrites
-- **job-scout** — scrape recent postings (Apify), fit-score 1–10, flag top 10
-- **ats-resume-optimizer** — ATS keyword extraction, honest bullet rewrites, before/after match score
-- **network-mapper** — warm paths into target companies from your LinkedIn connections export
-- **content-engine** — 90 sequenced post ideas across 4 pillars
+## About this repository
 
-See the [plugin README](plugins/job-search-copilot/README.md) for setup (Apify connector, LinkedIn data export).
+This repo is a Claude plugin marketplace — add it once and you can install any plugin published here, with updates delivered on every sync. Plugin source lives in [`plugins/`](plugins/), and the catalog is [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
