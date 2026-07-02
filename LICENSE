@@ -1,0 +1,41 @@
+Job Search Copilot — Source-Available License
+Copyright (c) 2026 Craig Thomas. All rights reserved.
+
+PERMITTED
+You may, free of charge:
+
+1. Install and use this plugin (and the other contents of this repository)
+   for your own personal or internal purposes.
+2. View and study the source.
+3. Modify the source for your own personal or internal use.
+4. Share a link to this repository with anyone.
+
+NOT PERMITTED
+Without prior written permission from the copyright holder, you may not:
+
+1. Redistribute, republish, or rehost this plugin or any substantial
+   portion of it — including in another plugin, marketplace, repository,
+   product, or service — whether modified or not.
+2. Sell, license, or otherwise commercialize this plugin or derivative
+   works based on it.
+3. Remove or alter copyright notices or attribution.
+
+ATTRIBUTION
+Any permitted use that presents this work publicly must credit
+"Craig Thomas" and link to the original repository:
+https://github.com/CThomas-PO/cthomas-plugins
+
+CONTRIBUTIONS
+By submitting a contribution (e.g., a pull request), you agree it is
+licensed to the copyright holder for use in this project under these
+terms, and you retain copyright in your contribution.
+
+NO WARRANTY
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES,
+OR OTHER LIABILITY ARISING FROM THE USE OF THIS SOFTWARE.
+
+For permissions beyond this license, contact the copyright holder via
+the repository above.
