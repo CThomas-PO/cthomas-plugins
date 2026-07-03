@@ -6,7 +6,7 @@ description: >
   postings", or wants a ranked list of recent job postings matched and
   fit-scored against their background.
 metadata:
-  version: "0.3.0"
+  version: "0.4.0"
 ---
 
 # Job Scout
@@ -16,6 +16,10 @@ Find fresh job postings for the user's target role, filter to their preferences,
 ## Inputs
 
 Load `career-profile.md` from the working folder for: target role titles, domain, company-size preference, locations, and the resume. If missing, gather the minimum conversationally: role, location/remote, company size, domain, and ask for their resume (needed for fit scoring — without it, say scores will be keyword-only and less reliable).
+
+**Broaden title variants by default.** A single title under-searches: postings for the same job carry different labels ("Product Owner" vs "Product Manager" vs "Technical Product Manager"; "Data Analyst" vs "Business Intelligence Analyst"). Build the query set from every role title in the career profile PLUS common synonyms and seniority-prefixed variants of each. Show the user the expanded list in the parameter confirmation so they can prune it; deduplication (below) absorbs the overlap between queries. Narrow only if the user explicitly asks for exact-title matching.
+
+**Seed URLs.** Accept a list of specific LinkedIn job URLs from the user ("also score these"). Fetch each posting's full description, run it through the same fit scoring and hard-requirements gate, and include it in the ranked table with Source = "seed". Seeds are always deep-parsed (the user is explicitly considering them), are exempt from the posted-within window (flag their age instead), and count toward Top 10 eligibility like any other posting.
 
 ## Source selection
 
@@ -42,7 +46,7 @@ Mark connected sources as recommended. Never present an unavailable source as si
 
 **Searching LinkedIn via Apify**: search the Apify store for a LinkedIn jobs actor; prefer pay-per-result actors that don't require LinkedIn cookies. Pass role, location, and posted-time filter. Surface expected cost to the user BEFORE running (see `references/scraper-setup.md` for actor selection and cost guidance).
 
-Confirm search parameters before spending scraper credits: role title(s), posted-within window (default 7 days), location, company size, result cap (default 100).
+Confirm search parameters before spending scraper credits: role title(s) including the expanded variant list, posted-within window (default 7 days), location, company size, result cap (default 100). In the same confirmation, ask whether the user has any specific postings they've already found — links from their LinkedIn feed, a recruiter email, anywhere — to include as seed URLs for scoring.
 
 **Company-size filter caveat**: job scrapers rarely return employee counts. Apply the size filter via the company data the scraper does return; where absent, look up ambiguous companies with web search before excluding them, and mark size as "unverified" rather than guessing.
 
@@ -107,5 +111,6 @@ Knocked-out postings never appear in the Top 10. In the Why column, lead with th
 1. Ranked table (all results): Company | Role | Location | Salary (or "not listed") | Posted | Source | Size | Fit score | Why | Hard Requirements | Blockers (unmet required) | Stretch (unmet preferred).
 2. **Top 10 — apply now**: flagged subset with a one-line action note each (e.g., "referral possible — run network-mapper for Siemens Energy"). Knockouts are ineligible.
 3. Save as `job-scout-YYYY-MM-DD.xlsx` (use the xlsx skill) with the full table plus a Top 10 sheet; present the file.
+4. **Coverage caveat — always include** (in the About sheet and when presenting results): keyword search cannot see everything the user sees on LinkedIn while logged in. Promoted listings and personalized "recommended for you" roles surface through LinkedIn's paid placement and recommendation systems, not keyword search — so a role the user spotted in their own feed may legitimately be absent here. Suggest pasting such postings as seed URLs to get them scored.
 
 Never fabricate postings, salaries, or posting dates. If a field wasn't returned, say "not listed". Offer follow-ups: run ats-resume-optimizer against a top posting's JD, run network-mapper on top companies, or schedule this search to re-run weekly.
