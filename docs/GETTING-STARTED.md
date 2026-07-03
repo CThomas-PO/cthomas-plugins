@@ -52,7 +52,7 @@ Paste your headline/About/Experience or attach your profile PDF (LinkedIn: your 
 
 > Find [your role] jobs posted in the last week
 
-The first run prompts you to sign in to **Apify** (free account at [apify.com](https://apify.com)) — that's the scraping service that fetches LinkedIn postings. Claude tells you the estimated cost before every run; typical searches cost pennies.
+The first run asks you to connect **Apify** — the scraping service that fetches LinkedIn postings. It's a one-time, ~2-minute setup with no credit card: see [Setting up Apify](#setting-up-apify-one-time-2-minutes) below. After that, Claude tells you the estimated cost before every run; typical searches cost pennies and are covered by Apify's free monthly credit.
 
 ![Apify sign-in prompt](images/05-apify-oauth.png)
 
@@ -101,6 +101,52 @@ Generates 90 post ideas across four pillars — builder credibility, lessons fro
 
 ---
 
+## Setting up Apify (one time, ~2 minutes)
+
+Apify is the service the job-scout skill uses to fetch LinkedIn job postings. Don't let the word "API" scare you off — there are no keys to copy and nothing to configure. You create a free account and click one authorization button. That's the whole thing.
+
+### Step 1 — Create a free Apify account
+
+1. Go to [apify.com](https://apify.com) and click **Sign up**.
+2. Sign up with Google, GitHub, or your email. **No credit card is required** — not now, not later, unless you choose to upgrade.
+3. That's it. The free plan includes **$5 of usage credit every month**, which covers thousands of job results — far more than a typical job search needs.
+
+![Apify sign-up page](images/10-apify-signup.png)
+
+> If Apify shows you an onboarding tour or asks what you want to build, you can skip all of it. You never need to touch the Apify website again after signing up.
+
+### Step 2 — Connect Apify to Claude
+
+1. Back in Claude, ask job-scout to find jobs (or open **Customize → Connectors** and find **apify** under the plugin's connectors).
+2. Claude tells you Apify needs to be connected and opens a browser window to Apify's authorization page.
+3. Log in if asked, then click **Authorize** / **Allow**.
+
+![Apify authorization screen](images/11-apify-authorize.png)
+
+You'll land back in Claude, connected. You won't be asked again on this computer.
+
+### Step 3 — Verify it works
+
+Ask Claude:
+
+> Find product manager jobs posted in the last 7 days in Chicago
+
+Claude should confirm the search parameters and estimated cost (typically **under 15 cents** for 100 results), then run the search. If you see a ranked table of jobs — you're done.
+
+### Apify FAQ
+
+**Will this cost me money?** Not unless you want it to. The free $5 monthly credit resets every month. If you somehow use it up, Apify simply stops running searches until next month — it cannot charge you, because there's no card on file.
+
+**Why do I need Apify at all?** LinkedIn doesn't offer a public way to search its job postings from outside tools. Apify runs "actors" — small scraping programs — that collect public job postings on your behalf.
+
+**Is my LinkedIn account involved?** No. You never give the plugin or Apify your LinkedIn login. The scraping happens entirely on Apify's side, against publicly visible postings.
+
+**I got an error about credits or limits.** Check [console.apify.com](https://console.apify.com) → Billing to see your remaining monthly credit. If it's exhausted, wait for the monthly reset, or ask job-scout to use the free Indeed/ZipRecruiter/Dice connectors instead.
+
+**I'd rather not use Apify.** Fine! Job-scout works without it — it will offer official job-board connectors (Indeed, ZipRecruiter, Dice; free, no LinkedIn coverage) or you can paste job postings in manually.
+
+---
+
 ## Troubleshooting & FAQ
 
 **The skills don't trigger.** Make sure you're in a Cowork session (not regular chat) and the plugin shows as installed under Customize → Plugins.
@@ -112,3 +158,5 @@ Generates 90 post ideas across four pillars — builder credibility, lessons fro
 **What does it cost?** The plugin is free. Job scraping via Apify costs roughly $0.40–$1.50 per 1,000 results (a free-tier account covers casual use). Everything else uses your existing Claude subscription.
 
 **Privacy note.** Your resume, profile, and connections CSV stay in your working folder on your machine. Nothing is uploaded anywhere except what you explicitly send to scraping services (job search terms — never your personal data).
+
+**How do I get the latest version?** Check the version listed in the [changelog](../README.md#changelog) against yours (Customize → Plugins → job-search-copilot). Marketplace re-sync in the desktop app is currently unreliable for personal marketplaces, so the dependable route is: remove the plugin, re-add the marketplace (Customize → Plugins → + → Add from a repository), and reinstall. Your career profile and saved files are untouched — they live in your working folder, not in the plugin.

@@ -39,6 +39,13 @@ Using Claude Code instead?
 
 The plugin is free. Job scraping runs on [Apify](https://apify.com)'s free tier ($5 usage credit monthly, no card required — typical searches cost pennies). Everything else uses your existing Claude subscription.
 
+## Changelog
+
+- **0.2.0** — job-scout now shows a checkbox picker of job sources (LinkedIn via Apify, Indeed, ZipRecruiter, Dice) with live connection status, plus multi-source dedup and a Source column in results.
+- **0.1.0** — initial release: six skills, shared career profile, Apify-powered LinkedIn job scraping.
+
+*To update an installed plugin, see [How do I get the latest version?](docs/GETTING-STARTED.md#troubleshooting--faq)*
+
 ## About this repository
 
 This repo is a Claude plugin marketplace — add it once and you can install any plugin published here, with updates delivered on every sync. Plugin source lives in [`plugins/`](plugins/), and the catalog is [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
