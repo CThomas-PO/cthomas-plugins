@@ -41,6 +41,7 @@ The plugin is free. Job scraping runs on [Apify](https://apify.com)'s free tier 
 
 ## Changelog
 
+- - **0.3.0** — job-scout adds a hard-requirements knockout gate: parses full job descriptions for mandatory gates (platforms, clearances, credentials, years), caps unmet-Required postings at 4/10 with quoted evidence, and adds Hard Requirements / Blockers / Stretch columns.
 - **0.2.0** — job-scout now shows a checkbox picker of job sources (LinkedIn via Apify, Indeed, ZipRecruiter, Dice) with live connection status, plus multi-source dedup and a Source column in results.
 - **0.1.0** — initial release: six skills, shared career profile, Apify-powered LinkedIn job scraping.
 
