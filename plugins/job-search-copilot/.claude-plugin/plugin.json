@@ -1,6 +1,6 @@
 {
   "name": "job-search-copilot",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "A conversational job-search copilot: optimize your LinkedIn profile, scout and rank fresh job postings, tailor your resume for ATS, map warm paths into target companies, and run a 90-post content engine.",
   "author": {
     "name": "Craig"
