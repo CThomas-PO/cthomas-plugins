@@ -6,7 +6,7 @@ description: >
   postings", or wants a ranked list of recent job postings matched and
   fit-scored against their background.
 metadata:
-  version: "0.8.0"
+  version: "0.8.1"
 ---
 
 # Job Scout
@@ -16,6 +16,8 @@ Find fresh job postings for the user's target role, filter to their preferences,
 ## Inputs
 
 Load `career-profile.md` from the working folder for: target role titles, domain, company-size preference, locations, and the resume. If missing, gather the minimum conversationally: role, location/remote, company size, domain, and ask for their resume (needed for fit scoring — without it, say scores will be keyword-only and less reliable).
+
+**Working folder.** If no folder is connected yet, ask the user to connect one (via `request_cowork_directory`) before saving any output, so the ranked-table export and saved job descriptions persist across sessions. If they decline, save this run's outputs to the outputs folder and say explicitly that job descriptions saved this way won't be found by ats-resume-optimizer in a future session — the persistence promise in Persisting full job descriptions below only holds with a connected folder.
 
 **Broaden title variants by default.** A single title under-searches: postings for the same job carry different labels ("Product Owner" vs "Product Manager" vs "Technical Product Manager"; "Data Analyst" vs "Business Intelligence Analyst"). Build the query set from every role title in the career profile PLUS common synonyms and seniority-prefixed variants of each. Show the user the expanded list in the parameter confirmation so they can prune it; deduplication (below) absorbs the overlap between queries. Narrow only if the user explicitly asks for exact-title matching.
 

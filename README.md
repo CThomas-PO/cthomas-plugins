@@ -41,6 +41,7 @@ The plugin is free. Job scraping runs on [Apify](https://apify.com)'s free tier 
 
 ## Changelog
 
+- **0.8.1** — job-scout now explicitly asks the user to connect a working folder before saving output if none is connected yet, since saved job descriptions only persist across sessions with one.
 - **0.8.0** — job-scout now saves the full job description for every posting to job-descriptions/ in the working folder, keyed by a stable Job ID shown in the results table; ats-resume-optimizer reads from that store first instead of asking you to re-paste a JD it already pulled.
 - **0.7.0** — job-scout fit-scoring now requires the full job description (no more scoring off truncated snippets), weights core-role fit far above surface keyword overlap so a genuine core gap can't produce an inflated score, and shows the drivers and gaps behind every score.
 - **0.6.0** — hybrid/on-site users can set a zip code and travel radius; job-scout filters out-of-radius postings and discloses how many were excluded.
