@@ -7,7 +7,7 @@ description: >
   resume, target role, domain, and preferences once, saving a reusable
   career-profile.md that all other job-search-copilot skills read.
 metadata:
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Career Profile Setup
@@ -51,6 +51,7 @@ Last updated: YYYY-MM-DD
 - Compensation target: ...
 - Timeline: ...
 - Confidential search: yes/no
+- Technology professional (for Dice eligibility): yes/no (optional — populated lazily by job-scout the first time it's needed, not asked during this intake)
 
 ## Background summary
 (3–5 sentence positioning summary written from the resume)

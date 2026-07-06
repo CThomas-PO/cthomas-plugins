@@ -6,7 +6,7 @@ description: >
   postings", or wants a ranked list of recent job postings matched and
   fit-scored against their background.
 metadata:
-  version: "0.4.0"
+  version: "0.5.0"
 ---
 
 # Job Scout
@@ -25,15 +25,20 @@ Load `career-profile.md` from the working folder for: target role titles, domain
 
 Before searching, detect which sources are actually available in this session, then let the user choose with a multi-select AskUserQuestion (checkboxes).
 
+**Step 0 — Technology-professional check (Dice eligibility).** Dice is a tech-focused board and is only offered to users who identify as technology professionals. Check `career-profile.md`'s Target section for a "Technology professional" field:
+
+- **Present** — read it silently; no question asked.
+- **Absent** — ask a single yes/no question in the same batch as source selection: "Are you a technology professional? This determines whether Dice — a tech-focused job board — is offered as a source." If answered, write `- Technology professional (for Dice eligibility): yes/no` into `career-profile.md`'s Target section immediately. If skipped or declined, don't persist anything — treat as unknown for this run only (Dice hidden this run; ask again next run).
+
 **Step 1 — Detect availability.** Check the session's available tools:
 
 - **LinkedIn (via Apify)**: available if the plugin's Apify MCP tools are loaded and authenticated (tools from the bundled `apify` server, e.g. actor search/call tools). If the server is present but unauthenticated, treat as "requires one-time setup".
-- **Indeed / ZipRecruiter / Dice**: available if their connector tools (e.g. `search_jobs`) are loaded. If not connected, treat as "requires connecting" — these are free official connectors from the connector directory.
+- **Indeed / ZipRecruiter / Dice**: available if their connector tools (e.g. `search_jobs`) are loaded. If not connected, treat as "requires connecting" — these are free official connectors from the connector directory. Dice is further gated by Step 0 — only check its availability at all if the user is a known or newly-confirmed technology professional.
 
-**Step 2 — Ask.** Present one multiSelect question, "Which job sources should I search?", with an option per source. Reflect live status in each label and description — for example:
+**Step 2 — Ask.** Present one multiSelect question, "Which job sources should I search?", with an option per source. Omit Dice entirely (not greyed-out, not listed as unavailable — simply absent) unless Step 0 resolved to "yes" for this run. Reflect live status in each remaining label and description — for example:
 
 - "LinkedIn (via Apify) ✓ connected" / "LinkedIn (via Apify) — needs one-time setup (free)". Description: broadest coverage; scraping costs pennies per run, estimated before running. If setup is needed: selecting this starts a one-time free Apify connection (no credit card).
-- "Indeed ✓ connected" / "Indeed — needs connecting (free, official)". Similar for ZipRecruiter and Dice.
+- "Indeed ✓ connected" / "Indeed — needs connecting (free, official)". Similar for ZipRecruiter and, when eligible, Dice.
 
 Mark connected sources as recommended. Never present an unavailable source as silently ready — the status must be in the label so there are no surprises after selection.
 

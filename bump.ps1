@@ -1,4 +1,4 @@
-# bump.ps1 — set the plugin version in both manifests, show proof, stage the files.
+# bump.ps1 - set the plugin version in both manifests, show proof, stage the files.
 # Usage:  .\bump.ps1 0.6.0
 param(
     [Parameter(Mandatory = $true)]
@@ -21,27 +21,45 @@ $marketplaceFile = ".claude-plugin\marketplace.json"
 
 foreach ($f in @($pluginFile, $marketplaceFile)) {
     if (-not (Test-Path $f)) {
-        Write-Host "ERROR: can't find $f — are you in the repo root?" -ForegroundColor Red
+        Write-Host "ERROR: can't find $f - are you in the repo root?" -ForegroundColor Red
         exit 1
     }
 }
 
-# --- plugin.json ---
-$plugin = Get-Content $pluginFile -Raw | ConvertFrom-Json
-$oldPlugin = $plugin.version
-$plugin.version = $Version
-$plugin | ConvertTo-Json -Depth 10 | Set-Content $pluginFile -Encoding UTF8
+# Replace the first "version": "..." field found at or after $Anchor in $Text (or the
+# first one in the file if $Anchor is empty). A targeted text replace, not a JSON
+# parse/re-serialize round trip, so original formatting, key order, and encoding survive untouched.
+function Set-VersionField {
+    param([string]$Text, [string]$Anchor, [string]$NewVersion)
 
-# --- marketplace.json (only the plugin entry; metadata.version is left alone) ---
-$marketplace = Get-Content $marketplaceFile -Raw | ConvertFrom-Json
-$entry = $marketplace.plugins | Where-Object { $_.name -eq "job-search-copilot" }
-if (-not $entry) {
-    Write-Host "ERROR: no 'job-search-copilot' entry found in marketplace.json" -ForegroundColor Red
-    exit 1
+    $searchFrom = 0
+    if ($Anchor) {
+        $searchFrom = $Text.IndexOf($Anchor)
+        if ($searchFrom -lt 0) {
+            throw "couldn't find anchor '$Anchor'"
+        }
+    }
+    $match = [regex]::Match($Text.Substring($searchFrom), '"version":\s*"(\d+\.\d+\.\d+)"')
+    if (-not $match.Success) {
+        throw "couldn't find a version field"
+    }
+    $oldVersion = $match.Groups[1].Value
+    $absoluteIndex = $searchFrom + $match.Index
+    $newText = $Text.Substring(0, $absoluteIndex) + $match.Value.Replace($oldVersion, $NewVersion) + $Text.Substring($absoluteIndex + $match.Length)
+    return @{ Text = $newText; OldVersion = $oldVersion }
 }
-$oldMarketplace = $entry.version
-$entry.version = $Version
-$marketplace | ConvertTo-Json -Depth 10 | Set-Content $marketplaceFile -Encoding UTF8
+
+$utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+
+# --- plugin.json ---
+$result = Set-VersionField -Text (Get-Content $pluginFile -Raw) -Anchor "" -NewVersion $Version
+$oldPlugin = $result.OldVersion
+[System.IO.File]::WriteAllText((Resolve-Path $pluginFile), $result.Text, $utf8NoBom)
+
+# --- marketplace.json (only the job-search-copilot plugin entry; metadata.version is left alone) ---
+$result = Set-VersionField -Text (Get-Content $marketplaceFile -Raw) -Anchor '"job-search-copilot"' -NewVersion $Version
+$oldMarketplace = $result.OldVersion
+[System.IO.File]::WriteAllText((Resolve-Path $marketplaceFile), $result.Text, $utf8NoBom)
 
 # --- proof ---
 Write-Host ""
@@ -49,7 +67,7 @@ Write-Host "plugin.json       : $oldPlugin -> $Version" -ForegroundColor Green
 Write-Host "marketplace.json  : $oldMarketplace -> $Version" -ForegroundColor Green
 
 if ($oldPlugin -eq $Version -and $oldMarketplace -eq $Version) {
-    Write-Host "NOTE: both files already said $Version — nothing changed." -ForegroundColor Yellow
+    Write-Host "NOTE: both files already said $Version - nothing changed." -ForegroundColor Yellow
 }
 
 # --- stage ---

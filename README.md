@@ -41,6 +41,7 @@ The plugin is free. Job scraping runs on [Apify](https://apify.com)'s free tier 
 
 ## Changelog
 
+- **0.5.0** — Dice is now offered as a job-scout source only for users who identify as technology professionals (asked once, saved to career profile).
 - **0.4.0** — job-scout asks whether the user has found postings anywhere — feed, recruiter email, wherever — to include as seeds. One question folded into an existing checkpoint, no extra back-and-forth..
 - **0.3.0** — job-scout adds a hard-requirements knockout gate: parses full job descriptions for mandatory gates (platforms, clearances, credentials, years), caps unmet-Required postings at 4/10 with quoted evidence, and adds Hard Requirements / Blockers / Stretch columns.
 - **0.2.0** — job-scout now shows a checkbox picker of job sources (LinkedIn via Apify, Indeed, ZipRecruiter, Dice) with live connection status, plus multi-source dedup and a Source column in results.
