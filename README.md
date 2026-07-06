@@ -41,6 +41,7 @@ The plugin is free. Job scraping runs on [Apify](https://apify.com)'s free tier 
 
 ## Changelog
 
+- **0.7.0** — job-scout fit-scoring now requires the full job description (no more scoring off truncated snippets), weights core-role fit far above surface keyword overlap so a genuine core gap can't produce an inflated score, and shows the drivers and gaps behind every score.
 - **0.6.0** — hybrid/on-site users can set a zip code and travel radius; job-scout filters out-of-radius postings and discloses how many were excluded.
 - **0.5.0** — Dice is now offered as a job-scout source only for users who identify as technology professionals (asked once, saved to career profile).
 - **0.4.0** — job-scout asks whether the user has found postings anywhere — feed, recruiter email, wherever — to include as seeds. One question folded into an existing checkpoint, no extra back-and-forth..

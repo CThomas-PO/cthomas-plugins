@@ -6,7 +6,7 @@ description: >
   postings", or wants a ranked list of recent job postings matched and
   fit-scored against their background.
 metadata:
-  version: "0.6.0"
+  version: "0.7.0"
 ---
 
 # Job Scout
@@ -57,25 +57,39 @@ Confirm search parameters before spending scraper credits: role title(s) includi
 
 **Multi-source runs**: deduplicate postings that appear on multiple boards (same company + title + location); keep the row once and note all sources in it.
 
+## Full-JD requirement
+
+Before assigning any numeric fit score, fetch the complete `jobDescription` for the posting — never score from a title/snippet alone. Attempt this for every result, not just a top-N subset.
+
+If the full description genuinely cannot be fetched (blocked/paywalled page, source won't return full text) — as opposed to simply choosing not to fetch it — do not emit a numeric score. Instead: Fit score = "snippet only — verify full JD", displayed value capped at a neutral **5**, with a one-line note on what's missing.
+
 ## Fit scoring (1–10)
 
-Score each posting against the resume with this rubric — apply it consistently so scores are comparable:
+Score each posting against the resume with this rubric — apply it consistently so scores are comparable. Requires the full job description (see Full-JD requirement above).
 
-- **Skills & keywords match (0–4)**: fraction of the posting's must-have skills present in the resume.
-- **Domain match (0–2)**: same industry/domain = 2; adjacent = 1; unrelated = 0.
-- **Seniority & title match (0–2)**: level fits their trajectory (neither a step down nor an unrealistic jump).
-- **Logistics (0–1)**: location/remote and company size fit stated preferences.
-- **Freshness (0–1)**: posted ≤3 days = 1 (early applicants get disproportionate recruiter attention).
+- **Core pillar match (0–5, dominant term)**: does the resume match what the JD's day-to-day responsibilities and top-listed requirements are actually built around — domain depth, ownership scope, seniority center of gravity? Identify the JD's 2–3 central requirements first. If the resume has a genuine gap in one or more (e.g., lacks the stated domain depth, lacks required ownership scope, is below the stated seniority bar), this component scores in the bottom third of its range (0–1) regardless of keyword overlap elsewhere. A posting cannot reach 9–10 if any central requirement is a genuine gap.
+- **Differentiating skills (0–2)**: skills/keywords that meaningfully distinguish strong candidates for this specific role — not baseline expectations.
+- **Table-stakes presence (0–1)**: confirms baseline/ambient tools and skills the JD treats as expected of every applicant (e.g., SQL, common AI-literacy terms) are present. Capped low by design — these don't differentiate a candidate, so they can't inflate the score.
+- **Seniority & title match (0–1)**: level fits their trajectory (neither a step down nor an unrealistic jump).
+- **Logistics & freshness (0–1)**: location/remote and company size fit stated preferences; posted ≤3 days adds to this same point (early applicants get disproportionate recruiter attention).
 
-State the score drivers in one short phrase per job ("9/10 — exact title, IoT domain, posted yesterday").
+**Scale calibration** — apply these anchors so scores stay comparable across postings and 9–10 stays rare:
 
-This rubric measures **overlap** — what the resume and posting share. It cannot see **gating** — mandatory requirements the user does not meet. Every rubric score must therefore pass through the hard-requirements gate below before it is final.
+- 9–10: core pillars fully met, no meaningful gaps.
+- 7–8: core pillars solidly met, only minor/peripheral gaps.
+- 5–6: partial core match — some central requirements met, others not.
+- 3–4: at least one central requirement is a genuine gap, even with strong surface or table-stakes overlap.
+- 1–2: core mismatch across most central requirements.
+
+State the score as `X/10 — drivers: A, B, C — gaps: D, E`: 2–3 factors driving the score, and the top 2–3 gaps, both required whenever a numeric score is shown.
+
+This rubric measures **overlap and core fit** — what the resume and posting share, and whether the posting's actual center of gravity matches the resume. It cannot see **gating** — mandatory requirements the user does not meet. Every rubric score must therefore pass through the hard-requirements gate below before it is final.
 
 ## Hard-requirements gate (knockout pass)
 
 Keyword overlap makes a posting look good; one unmet line in its Required section can make it an auto-reject. Titles hide gates — a "Product Manager" posting may require "3+ years ServiceNow" in its body. Read the body.
 
-**Efficiency — don't deep-parse everything.** First compute preliminary rubric scores for all results from title/snippet data. Then deep-parse the full `jobDescription` for the top ~30 by preliminary score (only they can reach the Top 10). If full descriptions are already in hand for all results, additionally run a cheap keyword prefilter across the rest — platform names, "clearance", "citizen", "certified", "license", "CPA", "PMP", "PhD", "years of" — and deep-parse anything it flags. A knockout hiding at preliminary rank 40 still deserves its cap.
+**Fetch full descriptions for every result.** Since Fit scoring above requires the full JD for any numeric score, deep-parse `jobDescription` for every result by default — not a top-N subset. Use title/keyword match only as an internal triage rank to decide fetch order if the source rate-limits or the result count is very large; this triage rank is never displayed or treated as a score. Anything that couldn't be fetched keeps the "snippet only" label from the Full-JD requirement above and is ineligible for the Top 10 (it has no verified score to rank on).
 
 **Step 1 — Extract.** From the full `jobDescription`, pull every hard requirement and tag its `type`:
 
