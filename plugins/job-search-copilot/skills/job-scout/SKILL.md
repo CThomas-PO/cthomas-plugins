@@ -118,13 +118,14 @@ Applied whenever `career-profile.md` has both a zip code and a travel-distance r
 - **Remote postings always bypass this filter** — a remote role has no location constraint regardless of the user's zip.
 - **Hybrid/on-site postings**: estimate the distance between the user's zip code and the posting's stated city/area using your own geographic knowledge. No geocoding tool or web search call — an approximate straight-line estimate is sufficient for a radius cutoff, not turn-by-turn precision.
 - **Beyond the stated radius** — exclude the posting from the ranked table entirely, same as any other hard filter.
-- **Location too vague to estimate** (e.g., posting only says "United States," or omits location) — do not guess-exclude. Keep the posting in the table and mark its distance as "unverified," the same treatment the company-size filter above uses when data is missing.
+- **Location too vague to estimate** (e.g., posting only says "United States," or omits location) — do not guess-exclude. Keep the posting in the table and mark its Distance column as "unverified," the same treatment the company-size filter above uses when data is missing.
+- **Distance column values**: "remote" for remote postings, the estimated distance (e.g., "12 mi") for in-radius hybrid/on-site postings, "unverified" for vague/missing locations.
 
 Never apply this filter silently: track how many postings were excluded so the count can be disclosed in Output.
 
 ## Output
 
-1. Ranked table (all results): Company | Role | Location | Salary (or "not listed") | Posted | Source | Size | Fit score | Why | Hard Requirements | Blockers (unmet required) | Stretch (unmet preferred).
+1. Ranked table (all results): Company | Role | Location | Distance | Salary (or "not listed") | Posted | Source | Size | Fit score | Why | Hard Requirements | Blockers (unmet required) | Stretch (unmet preferred).
 2. **Top 10 — apply now**: flagged subset with a one-line action note each (e.g., "referral possible — run network-mapper for Siemens Energy"). Knockouts are ineligible.
 3. Save as `job-scout-YYYY-MM-DD.xlsx` (use the xlsx skill) with the full table plus a Top 10 sheet; present the file.
 4. **Coverage caveat — always include** (in the About sheet and when presenting results): keyword search cannot see everything the user sees on LinkedIn while logged in. Promoted listings and personalized "recommended for you" roles surface through LinkedIn's paid placement and recommendation systems, not keyword search — so a role the user spotted in their own feed may legitimately be absent here. Suggest pasting such postings as seed URLs to get them scored. If the travel-radius filter excluded any postings this run, state the count here too — nothing about that filter is silent.
