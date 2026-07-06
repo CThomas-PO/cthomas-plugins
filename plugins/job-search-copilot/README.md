@@ -11,7 +11,7 @@ A conversational job-search assistant for any job seeker. Six skills that share 
 | **job-scout** | Scrapes recent LinkedIn postings for your role (via Apify), filters by company size and domain, fit-scores each 1–10 against your resume, flags the top 10. | "Find product owner jobs posted this week" |
 | **ats-resume-optimizer** | Parses a job description like an ATS, rewrites your bullets to mirror its language honestly, scores before/after match, flags keyword stuffing. | "Tailor my resume to this JD" |
 | **network-mapper** | From your LinkedIn connections export: 1st-degree contacts at a target company, inferred warm paths, per-contact message templates. Includes the data-export walkthrough. | "Who do I know at Siemens Energy?" |
-| **content-engine** | 90 post ideas across 4 pillars (hook + angle + format), sequenced so 30 days of authority-building precede outreach. | "Build my LinkedIn content plan" |
+| **content-engine** | 10 post ideas across 4 pillars (hook + angle + format), sequenced over 4 weeks so authority-building precedes outreach. | "Build my LinkedIn content plan" |
 
 ## Setup
 

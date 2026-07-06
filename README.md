@@ -1,6 +1,6 @@
 # Job Search Copilot for Claude
 
-**An AI job-search assistant that runs inside Claude.** Six skills that share one career profile — explain yourself once, then: get your LinkedIn profile rewritten for recruiter search, find and fit-score fresh job postings, tailor your resume to any job description without keyword stuffing, map warm intros into target companies, and run a 90-day LinkedIn content plan that builds authority before you start outreach.
+**An AI job-search assistant that runs inside Claude.** Six skills that share one career profile — explain yourself once, then: get your LinkedIn profile rewritten for recruiter search, find and fit-score fresh job postings, tailor your resume to any job description without keyword stuffing, map warm intros into target companies, and run a 4-week LinkedIn content plan that builds authority before you start outreach.
 
 ![Job Search Copilot in action](docs/images/06-job-scout-results.png)
 
@@ -13,7 +13,7 @@
 | **Job scout** | "Find product manager jobs posted this week" | Ranked table of fresh postings, fit-scored 1–10 against your resume, top 10 flagged |
 | **ATS resume optimizer** | "Tailor my resume to this JD" | ATS keyword extraction, honest bullet rewrites, before/after match score |
 | **Network mapper** | "Who do I know at [company]?" | 1st-degree contacts, warm-intro paths, ready-to-send messages from your LinkedIn connections export |
-| **Content engine** | "Build my LinkedIn content plan" | 90 post ideas (hook + angle + format) across 4 pillars, sequenced over 90 days |
+| **Content engine** | "Build my LinkedIn content plan" | 10 post ideas (hook + angle + format) across 4 pillars, sequenced over 4 weeks |
 
 Every skill asks before it guesses, never invents facts about you, and is honest about its data's limits.
 
@@ -41,6 +41,7 @@ The plugin is free. Job scraping runs on [Apify](https://apify.com)'s free tier 
 
 ## Changelog
 
+- **0.9.0** — content-engine now generates 10 LinkedIn post ideas sequenced over 4 weeks (was 90 over 90 days) — same 4 pillars, less overwhelming to act on.
 - **0.8.1** — job-scout now explicitly asks the user to connect a working folder before saving output if none is connected yet, since saved job descriptions only persist across sessions with one.
 - **0.8.0** — job-scout now saves the full job description for every posting to job-descriptions/ in the working folder, keyed by a stable Job ID shown in the results table; ats-resume-optimizer reads from that store first instead of asking you to re-paste a JD it already pulled.
 - **0.7.0** — job-scout fit-scoring now requires the full job description (no more scoring off truncated snippets), weights core-role fit far above surface keyword overlap so a genuine core gap can't produce an inflated score, and shows the drivers and gaps behind every score.

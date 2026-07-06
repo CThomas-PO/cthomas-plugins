@@ -1,6 +1,6 @@
 # Getting Started with Job Search Copilot
 
-A job-search assistant that runs inside Claude's Cowork mode. Six skills that share one career profile — you explain yourself once, and every skill builds on it: optimize your LinkedIn profile, find and rank fresh job postings, tailor your resume for ATS systems, map warm paths into target companies, and run a 90-day content plan.
+A job-search assistant that runs inside Claude's Cowork mode. Six skills that share one career profile — you explain yourself once, and every skill builds on it: optimize your LinkedIn profile, find and rank fresh job postings, tailor your resume for ATS systems, map warm paths into target companies, and run a 4-week content plan.
 
 **Requirements:** the [Claude desktop app](https://claude.ai/download) with Cowork mode.
 
@@ -84,7 +84,7 @@ For any target company you get: your 1st-degree contacts there, likely warm-intr
 
 > Build my LinkedIn content plan
 
-Generates 90 post ideas across four pillars — builder credibility, lessons from your current role, domain POVs, and job-search behind-the-scenes (auto-swapped for a discreet alternative if your search is confidential). Each idea is a written-out hook + angle + format, sequenced so your first 30 days build authority *before* your outreach lands. Delivered as a content calendar spreadsheet.
+Generates 10 post ideas across four pillars — builder credibility, lessons from your current role, domain POVs, and job-search behind-the-scenes (auto-swapped for a discreet alternative if your search is confidential). Each idea is a written-out hook + angle + format, sequenced over 4 weeks so your first week or two build authority *before* your outreach lands. Delivered as a content calendar spreadsheet.
 
 ![Content calendar](images/09-content-calendar.png)
 
