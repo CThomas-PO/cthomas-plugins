@@ -6,7 +6,7 @@ description: >
   postings", or wants a ranked list of recent job postings matched and
   fit-scored against their background.
 metadata:
-  version: "0.7.0"
+  version: "0.8.0"
 ---
 
 # Job Scout
@@ -62,6 +62,24 @@ Confirm search parameters before spending scraper credits: role title(s) includi
 Before assigning any numeric fit score, fetch the complete `jobDescription` for the posting — never score from a title/snippet alone. Attempt this for every result, not just a top-N subset.
 
 If the full description genuinely cannot be fetched (blocked/paywalled page, source won't return full text) — as opposed to simply choosing not to fetch it — do not emit a numeric score. Instead: Fit score = "snippet only — verify full JD", displayed value capped at a neutral **5**, with a one-line note on what's missing.
+
+## Persisting full job descriptions
+
+Every posting with a successfully fetched full JD gets it saved to the working folder, so ats-resume-optimizer and other skills never need the user to re-paste a job description scout already pulled.
+
+- **Where**: `job-descriptions/<job-id>.md` in the working folder — one file per posting.
+- **Job ID**: a readable slug — `company-role-location`, lowercased and hyphenated (e.g. `hippocratic-ai-deployment-strategist-remote`). If two postings collide, append `-2`, `-3`, etc.
+- **File contents**:
+  ```markdown
+  # <Role> — <Company>
+  Source: <posting URL, or "seed" / "manual paste">
+  Location: <Location>
+  Fetched: YYYY-MM-DD
+
+  <full job description text, verbatim>
+  ```
+- **Table cross-reference**: the ranked table's Job ID column (see Output) holds this slug for every posting with a saved file. Any skill that needs a JD for a posting reads `job-descriptions/<job-id>.md` directly instead of asking the user to paste it.
+- **Full JD unavailable**: if the fetch failed (see Full-JD requirement above), do not write a file — the Job ID column instead reads "full JD unavailable", matching the Fit score's "snippet only — verify full JD" label so both fields agree at a glance.
 
 ## Fit scoring (1–10)
 
@@ -139,7 +157,7 @@ Never apply this filter silently: track how many postings were excluded so the c
 
 ## Output
 
-1. Ranked table (all results): Company | Role | Location | Distance | Salary (or "not listed") | Posted | Source | Size | Fit score | Why | Hard Requirements | Blockers (unmet required) | Stretch (unmet preferred).
+1. Ranked table (all results): Company | Role | Location | Distance | Salary (or "not listed") | Posted | Source | Size | Fit score | Why | Hard Requirements | Blockers (unmet required) | Stretch (unmet preferred) | Job ID (see Persisting full job descriptions).
 2. **Top 10 — apply now**: flagged subset with a one-line action note each (e.g., "referral possible — run network-mapper for Siemens Energy"). Knockouts are ineligible.
 3. Save as `job-scout-YYYY-MM-DD.xlsx` (use the xlsx skill) with the full table plus a Top 10 sheet; present the file.
 4. **Coverage caveat — always include** (in the About sheet and when presenting results): keyword search cannot see everything the user sees on LinkedIn while logged in. Promoted listings and personalized "recommended for you" roles surface through LinkedIn's paid placement and recommendation systems, not keyword search — so a role the user spotted in their own feed may legitimately be absent here. Suggest pasting such postings as seed URLs to get them scored. If the travel-radius filter excluded any postings this run, state the count here too — nothing about that filter is silent.

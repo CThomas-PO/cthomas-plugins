@@ -6,7 +6,7 @@ description: >
   "match my resume to this JD", or provides a resume plus a job posting and
   wants keyword extraction, rewritten bullets, and a match score.
 metadata:
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # ATS Resume Optimizer
@@ -15,7 +15,7 @@ Act as an ATS parser first, an editor second, and a human reviewer third. Extrac
 
 ## Inputs
 
-Require both: (1) the resume — from `career-profile.md`'s stored location or attached fresh; (2) the job description — pasted or a URL to fetch. If either is missing, ask. If the user ran job-scout, offer to pull the JD from a flagged posting.
+Require both: (1) the resume — from `career-profile.md`'s stored location or attached fresh; (2) the job description — check the working folder's `job-descriptions/` folder first for a file matching the company/role the user names (job-scout saves one full JD per posting there, keyed by a `company-role-location` slug — see job-scout's Persisting full job descriptions section). If found, read it directly instead of asking the user to paste it. If no match exists there, fall back to asking the user to paste the JD or provide a URL to fetch.
 
 ## Phase 1 — Parse like an ATS
 
