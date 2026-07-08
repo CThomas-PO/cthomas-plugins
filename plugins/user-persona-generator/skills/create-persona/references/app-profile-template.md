@@ -30,8 +30,9 @@ be used for manual testing."}
 
 ## Test environment
 
-- **URLs / allowed origins:** {test-env URLs — personas must not navigate
-  outside these origins}
+- **URLs / allowed origins:** {test-env URLs. Origins are domains —
+  subdomains of a listed domain are in scope (myjobs.example.com counts
+  for example.com). Personas must not navigate to truly external sites.}
 - **Access approach:** {warm-session — tester logs in before the persona
   takes over | env vars: VAR_NAMES — names only, never values}
 

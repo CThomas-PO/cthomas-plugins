@@ -44,7 +44,9 @@ Gather:
    automated test runs are browser-only in v1; the persona is still fully
    usable for manual testing. Do not hide this until later.
 4. **Test environment URL(s)** — these become the only origins a persona
-   may navigate during a test run
+   may navigate during a test run. Record them as domains: subdomains of
+   a listed domain are in scope by default, so the persona isn't blocked
+   by the product's own auxiliary subdomains mid-session.
 5. **Access approach** — offer exactly two options:
    - *Warm session* (default, recommended): the tester logs in manually at
      the start of a test session, then hands control to the persona
