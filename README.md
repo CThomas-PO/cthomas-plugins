@@ -1,59 +1,47 @@
-# Job Search Copilot for Claude
+# Craig's Claude Plugins
 
-**An AI job-search assistant that runs inside Claude.** Six skills that share one career profile — explain yourself once, then: get your LinkedIn profile rewritten for recruiter search, find and fit-score fresh job postings, tailor your resume to any job description without keyword stuffing, map warm intros into target companies, and run a 4-week LinkedIn content plan that builds authority before you start outreach.
+A [Claude plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces) —
+add this repo once and you can install any plugin published here, with updates
+delivered on every sync.
 
-![Job Search Copilot in action](docs/images/06-job-scout-results.png)
+## Plugins
 
-## What's inside
-
-| Skill | Say something like | You get |
+| Plugin | What it does | Version |
 |---|---|---|
-| **Career profile setup** | "Set up my career profile" | A one-time intake — resume, target role, preferences — every other skill reuses |
-| **LinkedIn profile optimizer** | "Optimize my LinkedIn profile" | Gap analysis + headline/About rewrites, optimized for recruiter search |
-| **Job scout** | "Find product manager jobs posted this week" | Ranked table of fresh postings, fit-scored 1–10 against your resume, top 10 flagged |
-| **ATS resume optimizer** | "Tailor my resume to this JD" | ATS keyword extraction, honest bullet rewrites, before/after match score |
-| **Network mapper** | "Who do I know at [company]?" | 1st-degree contacts, warm-intro paths, ready-to-send messages from your LinkedIn connections export |
-| **Content engine** | "Build my LinkedIn content plan" | 10 post ideas (hook + angle + format) across 4 pillars, sequenced over 4 weeks |
+| **[Job Search Copilot](plugins/job-search-copilot/)** | An AI job-search assistant: six skills sharing one career profile — LinkedIn profile optimization, fresh-posting scouting with honest fit scores, ATS resume tailoring, warm-intro mapping, and a 4-week content plan. | 0.9.0 |
+| **[User Persona Generator](plugins/user-persona-generator/)** | Simulated UX testing for teams that can't recruit real users: interview-built personas, live browser test sessions with think-aloud transcripts, and severity-ranked findings reports backed by verbatim evidence. | 0.3.0 |
 
-Every skill asks before it guesses, never invents facts about you, and is honest about its data's limits.
+Each plugin's README covers its skills, setup, and costs.
 
 ## Install
 
-You'll need the [Claude desktop app](https://claude.ai/download) with Cowork mode.
+**Claude desktop app (Cowork):**
 
 1. Open **Customize → Plugins**
 2. Click **+** → **Add from a repository**
 3. Paste: `https://github.com/CThomas-PO/cthomas-plugins`
-4. Install **job-search-copilot**, open a Cowork session, and say *"set up my career profile"*
+4. Install the plugin you want and open a session
 
-Using Claude Code instead?
+**Claude Code:**
 
 ```
 /plugin marketplace add CThomas-PO/cthomas-plugins
 /plugin install job-search-copilot@cthomas-plugins
+/plugin install user-persona-generator@cthomas-plugins
 ```
 
-📖 **[Full illustrated guide →](docs/GETTING-STARTED.md)** — step-by-step setup with screenshots, including the one-time Apify connection for job scraping (free, no credit card).
+📖 New to plugins? **[The illustrated guide](docs/GETTING-STARTED.md)** walks
+through setup with screenshots (written for Job Search Copilot; the steps
+apply to any plugin here).
 
-## Costs
+## Design principles
 
-The plugin is free. Job scraping runs on [Apify](https://apify.com)'s free tier ($5 usage credit monthly, no card required — typical searches cost pennies). Everything else uses your existing Claude subscription.
+Every plugin here follows the same rules: ask before guessing, never invent
+facts, cite evidence for claims, keep secrets out of files, and interrupt the
+user only when an action is destructive or truly ambiguous.
 
-## Changelog
+## Repository layout
 
-- **0.9.0** — content-engine now generates 10 LinkedIn post ideas sequenced over 4 weeks (was 90 over 90 days) — same 4 pillars, less overwhelming to act on.
-- **0.8.1** — job-scout now explicitly asks the user to connect a working folder before saving output if none is connected yet, since saved job descriptions only persist across sessions with one.
-- **0.8.0** — job-scout now saves the full job description for every posting to job-descriptions/ in the working folder, keyed by a stable Job ID shown in the results table; ats-resume-optimizer reads from that store first instead of asking you to re-paste a JD it already pulled.
-- **0.7.0** — job-scout fit-scoring now requires the full job description (no more scoring off truncated snippets), weights core-role fit far above surface keyword overlap so a genuine core gap can't produce an inflated score, and shows the drivers and gaps behind every score.
-- **0.6.0** — hybrid/on-site users can set a zip code and travel radius; job-scout filters out-of-radius postings and discloses how many were excluded.
-- **0.5.0** — Dice is now offered as a job-scout source only for users who identify as technology professionals (asked once, saved to career profile).
-- **0.4.0** — job-scout asks whether the user has found postings anywhere — feed, recruiter email, wherever — to include as seeds. One question folded into an existing checkpoint, no extra back-and-forth..
-- **0.3.0** — job-scout adds a hard-requirements knockout gate: parses full job descriptions for mandatory gates (platforms, clearances, credentials, years), caps unmet-Required postings at 4/10 with quoted evidence, and adds Hard Requirements / Blockers / Stretch columns.
-- **0.2.0** — job-scout now shows a checkbox picker of job sources (LinkedIn via Apify, Indeed, ZipRecruiter, Dice) with live connection status, plus multi-source dedup and a Source column in results.
-- **0.1.0** — initial release: six skills, shared career profile, Apify-powered LinkedIn job scraping.
-
-*To update an installed plugin, see [How do I get the latest version?](docs/GETTING-STARTED.md#troubleshooting--faq)*
-
-## About this repository
-
-This repo is a Claude plugin marketplace — add it once and you can install any plugin published here, with updates delivered on every sync. Plugin source lives in [`plugins/`](plugins/), and the catalog is [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json).
+- [`plugins/`](plugins/) — plugin source, one folder per plugin
+- [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json) — the catalog
+- [`docs/`](docs/) — guides, plus design specs and implementation plans
