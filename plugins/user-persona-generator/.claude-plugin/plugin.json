@@ -1,7 +1,7 @@
 {
   "name": "user-persona-generator",
-  "version": "0.2.0",
-  "description": "Generate research-grade user personas for simulated UX testing: interview-based persona creation today; browser-driving test sessions with think-aloud transcripts and severity-ranked findings reports in upcoming versions.",
+  "version": "0.3.0",
+  "description": "Generate research-grade user personas for simulated UX testing: interview-based persona creation, browser-driving test sessions with live think-aloud, and severity-ranked findings reports.",
   "author": {
     "name": "Craig"
   },
