@@ -186,6 +186,32 @@ occupation), no invented specifics beyond what the tester approved, no secrets p
 4. Attempting to give the interview a real password → refused, warm-session offered
 5. Re-running with an existing `app-profile.md` skips Phase 1
 
+## Cycle 2 decisions (accepted by Craig, 2026-07-08)
+
+- **Inline execution:** the persona session runs in the main conversation, not a
+  subagent — think-aloud streams live so the tester can watch/record, and the
+  persona can pause with AskUserQuestion. Tradeoff accepted: long sessions use
+  more context.
+- **Browser tooling:** the plugin ships a root `.mcp.json` declaring the
+  Playwright MCP server (`@playwright/mcp`), so installing the plugin brings the
+  browser-driving capability with it. Playwright's visible browser window is the
+  watch/record surface.
+- **Session caps:** default hard caps of 20 minutes wall-clock or 60 browser
+  actions, whichever comes first (overridable when starting a session). The
+  persona's own patience budget usually ends sessions earlier — the cap is a
+  cost backstop, and hitting it is recorded in the transcript as
+  "session ended by cap", never dressed up as a persona decision.
+- **Warm session flow:** the runner opens the start URL, then pauses and asks
+  the tester to log in directly in the browser window; the persona takes over
+  only after the tester confirms. Credential values never pass through chat.
+- **Transcript format:** `transcript.md` per session with a header block
+  (persona, task, start URL, caps) and timestamped entries; each entry is a
+  think-aloud utterance, an action, or a moderator exchange. Screenshots saved
+  to `screenshots/` at task milestones, confusion moments, and abandonment.
+- **First acceptance target:** persona `gary-job-novice` (proficiency-2,
+  first-time job seeker) against https://www.indeed.com/ with Craig's account
+  via warm session. "Apply for a job" is on the confirm-first guardrail list.
+
 ## Build order
 
 1. **This cycle:** plugin scaffold + `create-persona` skill + marketplace registration
