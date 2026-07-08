@@ -1,7 +1,7 @@
 # User Persona Generator
 
 Simulated UX testing for teams that can't recruit real users. Generate
-research-grade personas, then (in upcoming versions) watch them drive your
+research-grade personas, then watch them drive your
 app in a real browser — clicking, typing, thinking aloud — and hand you a
 severity-ranked findings report.
 
