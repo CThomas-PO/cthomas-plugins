@@ -28,25 +28,30 @@ mines it later.
    it has sections `## 8. Behavioral Directives` and `## 9. Runner
    Config`. If either is missing, stop and say the persona needs
    updating via create-persona.
-3. **Get the task.** Ask the tester for: (a) the task in plain language,
-   phrased in the persona's world, and (b) how we'll know it's done (the
-   completion criterion). Confirm both back. Never invent the task.
-4. **Confirm caps.** Default 20 minutes / 60 actions; the tester may
-   override. State whichever is in effect.
-5. **Create the session directory:**
+3. **Get the task — one exchange.** Ask the tester in a single message
+   for: (a) the task in plain language, phrased in the persona's world,
+   (b) how we'll know it's done (the completion criterion), and note the
+   defaults they can override in the same breath: caps (20 minutes / 60
+   actions) and supervision level (`hands-off`, the default — see
+   Guardrails). Confirm back. Never invent the task. Do not ask about
+   caps or supervision as separate questions.
+4. **Create the session directory:**
    `ux-testing/sessions/<YYYY-MM-DD>-<persona-slug>-<task-slug>/` with a
    `screenshots/` subfolder. Write the transcript header (see
    `references/transcript-template.md`) now, before the session starts.
-6. **Recording moment.** Tell the tester: "The browser window is about to
-   open — start your screen recording now if you want one." Wait for
-   their go-ahead.
-7. **Open the browser.** Navigate to the persona's Start URL and resize
-   to the persona's viewport.
-8. **Warm-session handoff.** If the app needs login, ask the tester (via
-   AskUserQuestion) to log in directly in the browser window and confirm
-   when done. Never accept a password, token, or code in the chat — if
+5. **Open the browser.** Navigate to the persona's Start URL and resize
+   to the persona's viewport. Check whether the site is already
+   authenticated — the browser profile persists between sessions, so
+   after the first run on a machine, login is usually still valid.
+6. **The go checkpoint — the session's single planned pause.** One
+   AskUserQuestion that covers, together: "browser is open — start your
+   screen recording now if you want one" and, ONLY if the site is not
+   already authenticated, "log in directly in the browser window, then
+   confirm." Never accept a password, token, or code in the chat — if
    the tester types one, refuse it and point them back to the browser
-   window. Log the handoff as a [Moderator] entry.
+   window. Log the handoff as a [Moderator] entry. When the site is
+   already logged in, this checkpoint is the only stop before the
+   debrief.
 
 ## Embodiment rules
 
@@ -91,13 +96,25 @@ invent times.
 
 ## Guardrails (enforced out of character)
 
-- **Origins:** the allowed origins in app-profile.md are a hard boundary.
-  If an action would leave them (external apply link, ad, SSO to another
-  site), don't follow it. The persona notices in character ("this is
-  taking me somewhere else…"); log a [Moderator] guardrail note.
+- **Supervision level** (set at the task exchange, default `hands-off`):
+  - `hands-off` — the session pauses ONLY for confirm-first actions and
+    CAPTCHAs. Everything else (origin notes, tool retries, oddities) is
+    logged as [Moderator], never asked. This is the default because every
+    pause costs the tester time and tokens.
+  - `hands-on` — additionally pauses at origin extensions and ambiguous
+    task moments. Use when the tester says they want to steer.
+- **Origins:** the allowed origins in app-profile.md are *domains* — any
+  subdomain of an allowed domain is in scope (myjobs.example.com counts
+  for example.com; the product's own auxiliary subdomains are part of the
+  product). The hard boundary is truly external sites (other companies'
+  domains, ad networks, third-party application portals). If an action
+  would cross it, don't follow it: the persona notices in character
+  ("this is taking me somewhere else…"), log a [Moderator] guardrail
+  note, and in hands-on mode ask the tester.
 - **Confirm-first actions** (union of app-profile guardrails and the
   persona's "Never do without confirming" list): pause and ask the tester
-  before doing it. Log question and answer as [Moderator].
+  before doing it, in BOTH supervision levels. Log question and answer as
+  [Moderator].
 - **CAPTCHAs / anti-bot walls:** never attempt to solve one. Pause, ask
   the tester to clear it in the browser window, log as a [Moderator]
   assist.
@@ -133,5 +150,9 @@ it's coming in the next version if not yet installed).
 - Never fabricate or reorder transcript entries; append in real time
 - Real timestamps only
 - No credentials in chat or files, ever
+- Keep token cost down: prefer targeted snapshots (a region of the page)
+  over full-page snapshots when deciding the next action; append
+  transcript entries with file-edit tools rather than shell redirection
+  (fewer permission prompts, same result)
 - The transcript records what happened, including your own [Moderator]
   mistakes — the findings skill needs the truth
