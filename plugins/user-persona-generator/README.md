@@ -11,7 +11,7 @@ severity-ranked findings report.
 |-------|--------|--------------|
 | `create-persona` | ✅ v0.1.0 | Interviews you about your app and target user, writes a runnable persona file |
 | `run-persona-test` | ✅ v0.2.0 | Persona drives the app via Playwright, thinks aloud, logs a timestamped transcript |
-| `persona-findings` | 🔜 planned | Turns session transcripts into a severity-ranked findings report |
+| `persona-findings` | ✅ v0.3.0 | Turns session transcripts into a severity-ranked findings report |
 
 ## How it works
 

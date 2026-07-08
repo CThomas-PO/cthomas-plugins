@@ -1,8 +1,11 @@
 # bump.ps1 - set the plugin version in both manifests, show proof, stage the files.
-# Usage:  .\bump.ps1 0.6.0
+# Usage:  .\bump.ps1 0.6.0                                  (defaults to job-search-copilot)
+#         .\bump.ps1 0.6.0 -Plugin user-persona-generator
 param(
     [Parameter(Mandatory = $true)]
-    [string]$Version
+    [string]$Version,
+
+    [string]$Plugin = "job-search-copilot"
 )
 
 $ErrorActionPreference = "Stop"
@@ -16,7 +19,13 @@ if ($Version -notmatch '^\d+\.\d+\.\d+$') {
 # Run from the repo root (where this script lives)
 Set-Location $PSScriptRoot
 
-$pluginFile      = "plugins\job-search-copilot\.claude-plugin\plugin.json"
+if (-not (Test-Path "plugins\$Plugin")) {
+    Write-Host "ERROR: no such plugin 'plugins\$Plugin'. Available:" -ForegroundColor Red
+    Get-ChildItem "plugins" -Directory | ForEach-Object { Write-Host "  $($_.Name)" }
+    exit 1
+}
+
+$pluginFile      = "plugins\$Plugin\.claude-plugin\plugin.json"
 $marketplaceFile = ".claude-plugin\marketplace.json"
 
 foreach ($f in @($pluginFile, $marketplaceFile)) {
@@ -56,8 +65,8 @@ $result = Set-VersionField -Text (Get-Content $pluginFile -Raw) -Anchor "" -NewV
 $oldPlugin = $result.OldVersion
 [System.IO.File]::WriteAllText((Resolve-Path $pluginFile), $result.Text, $utf8NoBom)
 
-# --- marketplace.json (only the job-search-copilot plugin entry; metadata.version is left alone) ---
-$result = Set-VersionField -Text (Get-Content $marketplaceFile -Raw) -Anchor '"job-search-copilot"' -NewVersion $Version
+# --- marketplace.json (only this plugin's entry; metadata.version is left alone) ---
+$result = Set-VersionField -Text (Get-Content $marketplaceFile -Raw) -Anchor "`"$Plugin`"" -NewVersion $Version
 $oldMarketplace = $result.OldVersion
 [System.IO.File]::WriteAllText((Resolve-Path $marketplaceFile), $result.Text, $utf8NoBom)
 
