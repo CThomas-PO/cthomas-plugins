@@ -27,6 +27,16 @@
         "name": "Craig"
       },
       "keywords": ["ux", "usability-testing", "personas", "user-research", "ux-testing"]
+    },
+    {
+      "name": "interviewer-bot",
+      "source": "./plugins/interviewer-bot",
+      "description": "An adaptive mock-interview coach: reads your resume and a job description, runs a realistic interview in the hiring company's voice, and hands you a private performance review with rewritten answers.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Craig"
+      },
+      "keywords": ["interview-prep", "mock-interview", "career", "behavioral-interview", "star-method"]
     }
   ]
 }
