@@ -159,6 +159,14 @@ after silently failing to persist). The report saves to:
 interview-reviews/<company-slug>-<role-slug>-<YYYY-MM-DD>.md
 ```
 
+## README readability
+
+`interviewer-bot/README.md` must be written at a 7th-grade reading level: short sentences,
+plain everyday words, no jargon without a quick explanation, one idea per sentence. It still
+needs to cover the same ground as the other plugins' READMEs (install, how to start a
+session, what files to provide, a quick test, how to `/exit`) — just in plainer language so
+anyone can follow it, not only technical users.
+
 ## Command
 
 `commands/interview.md` — a thin slash command stating the trigger and pointing at the
