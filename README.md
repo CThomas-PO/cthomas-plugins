@@ -1,4 +1,4 @@
-# Craig's Claude Plugins
+# Craig Thomas's Claude Plugins
 
 A [Claude plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces) —
 add this repo once and you can install any plugin published here, with updates
